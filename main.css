@@ -1,0 +1,39 @@
+html, body {
+    font-family: sans-serif;
+    background: linear-gradient(90deg, #0a0, #ddd,#a00) no-repeat;
+    color: black;
+    height: 100vh;
+    width: 100%;
+    margin: auto;
+    overflow-y: auto;
+    font-size: 18px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+header {
+    margin-bottom: 40px;
+}
+
+main {
+    margin: 15px;
+    padding: 10px 10px 10px 10px;
+    background-color: #cecece;
+    background-color: rgba(255, 255, 255, 0.75);
+    color: black;
+    border-radius: 4px;
+    margin: 10px 5vw 10px 5vw;
+}
+
+#gerar {
+    width: 100%;
+    text-align: center;
+    height: 50px;
+    font-size: 18px;
+}
+
+#ingredientes {
+    list-style: none;
+}
