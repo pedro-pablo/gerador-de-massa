@@ -4,6 +4,7 @@ window.onload = function() {
     }
     
     validarTentativas();
+    carregarMassa();
     document.getElementById('cont').innerText = sessionStorage['cont'];
 }   
 
@@ -15,14 +16,22 @@ function gerar() {
         return;
     }
 
+    var opcoes = {
+        "oleo": 0,
+        "massa": 0,
+        "molho": 0,
+        "ingredientes": []
+    };
+
     botaoGerar.innerText = 'Massa gerada!';
-    document.getElementById('oleo').innerText = numeroAleatorio(1, 2) == 1 ? 'Azeite' : 'Manteiga';
-    document.getElementById('massa').innerText = obterMassa(numeroAleatorio(1, 3));
-    document.getElementById('molho').innerText = obterMolho(numeroAleatorio(1, 3));
-    document.getElementById('ingredientes').style.listStyle = 'square';
+
+    opcoes.oleo = numeroAleatorio(1, 2);
+    opcoes.massa = numeroAleatorio(1, 3);
+    opcoes.molho = numeroAleatorio(1, 3);
     for (let i = 1; i <= 10; i++) {
-        document.getElementById('ingr' + i).innerText = obterIngrediente(numeroAleatorio(1, 22));
+        opcoes.ingredientes.push(numeroAleatorio(1, 22));
     }
+
     setTimeout(() => {
         botaoGerar.removeAttribute('disabled');
         botaoGerar.innerText = 'Gerar';
@@ -32,6 +41,8 @@ function gerar() {
     sessionStorage['cont'] = Number(sessionStorage['cont']) + 1;
     document.getElementById('cont').innerText = sessionStorage['cont'];
 
+    salvarUltimaMassa(opcoes);
+    carregarMassa();
     validarTentativas();
 }
 
@@ -144,4 +155,25 @@ function obterIngrediente(codigo) {
     }
 
     return ingrediente;
+}
+
+function carregarMassa() {
+    if (!sessionStorage['ultimaMassa']) {
+        document.getElementById('ingredientes').style.listStyle = 'none';
+        return;
+    }
+
+    var opcoes = JSON.parse(sessionStorage['ultimaMassa']);
+    document.getElementById('oleo').innerText = opcoes.oleo == 1 ? 'Azeite' : 'Manteiga';
+    document.getElementById('massa').innerText = obterMassa(opcoes.massa);
+    document.getElementById('molho').innerText = obterMolho(opcoes.molho);
+
+    document.getElementById('ingredientes').style.listStyle = 'square';
+    for (let i = 1; i <= 10; i++) {
+        document.getElementById('ingr' + i).innerText = obterIngrediente(opcoes.ingredientes[i - 1]);
+    }
+}
+
+function salvarUltimaMassa(opcoes) {
+    sessionStorage['ultimaMassa'] = JSON.stringify(opcoes);
 }
