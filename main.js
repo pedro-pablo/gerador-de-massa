@@ -14,7 +14,7 @@ function gerar() {
     var botaoGerar = document.getElementById('gerar');
     botaoGerar.setAttribute('disabled', '');
     
-    if (Number(sessionStorage.cont) == MAXIMO_TENTATIVAS) {
+    if (!validarTentativas()) {
         return;
     }
 
@@ -38,7 +38,7 @@ function gerar() {
         botaoGerar.removeAttribute('disabled');
         botaoGerar.innerText = 'Gerar';
         validarTentativas();
-    }, 2500);
+    }, 2000);
 
     sessionStorage['cont'] = Number(sessionStorage['cont']) + 1;
     document.getElementById('cont').innerText = sessionStorage['cont'];
@@ -53,7 +53,9 @@ function validarTentativas() {
     if (sessionStorage['cont'] == MAXIMO_TENTATIVAS) {
         botaoGerar.setAttribute('disabled', '');
         botaoGerar.innerText = 'Tentativas esgotadas!';
+        return false;
     }
+    return true;
 }
 
 function numeroAleatorio(min, max) {
