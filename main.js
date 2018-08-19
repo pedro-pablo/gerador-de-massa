@@ -1,147 +1,68 @@
+const OLEOS = ['Azeite', 'Manteiga'];
+const MASSAS = ['Penne', 'Espaguete', 'Talharim'];
+const MOLHOS = ['Vermelho', 'Branco', 'Misto'];
+const INGREDIENTES = ['Milho', 'Bacon', 'Carne moída', 'Brócolis', 'Muçarela',
+'Cebola', 'Alcaparra', 'Salsicha', 'Alho', 'Queijo minas', 'Linguiça toscana',
+'Cenoura', 'Peito de peru', 'Azeitona', 'Presunto', 'Tomate', 'Ovo', 'Palmito',
+'Gorgonzola'];
+
+
 window.onload = function() {
-    if (!sessionStorage['cont']) {
-        sessionStorage.setItem('cont', 0);
-    }
-    
-    validarTentativas();
-    document.getElementById('cont').innerText = sessionStorage['cont'];
-}   
+    carregarMassa();
+}
 
 function gerar() {
     var botaoGerar = document.getElementById('gerar');
     botaoGerar.setAttribute('disabled', '');
-    
-    if (Number(sessionStorage.cont) == 3) {
-        return;
-    }
+
+    var opcoes = {
+        "oleo": '',
+        "massa": '',
+        "molho": '',
+        "ingredientes": []
+    };
 
     botaoGerar.innerText = 'Massa gerada!';
-    document.getElementById('oleo').innerText = numeroAleatorio(1, 2) == 1 ? 'Azeite' : 'Manteiga';
-    document.getElementById('massa').innerText = obterMassa(numeroAleatorio(1, 3));
-    document.getElementById('molho').innerText = obterMolho(numeroAleatorio(1, 3));
-    document.getElementById('ingredientes').style.listStyle = 'square';
+
+    opcoes.oleo = OLEOS[numeroAleatorio(0, 1)];
+    opcoes.massa = MASSAS[numeroAleatorio(0, 2)];
+    opcoes.molho = MOLHOS[numeroAleatorio(0, 2)];
     for (let i = 1; i <= 10; i++) {
-        document.getElementById('ingr' + i).innerText = obterIngrediente(numeroAleatorio(1, 22));
+        opcoes.ingredientes.push(INGREDIENTES[numeroAleatorio(0, 18)]);
     }
+
+    opcoes.ingredientes = opcoes.ingredientes.sort();
+
     setTimeout(() => {
         botaoGerar.removeAttribute('disabled');
         botaoGerar.innerText = 'Gerar';
-        validarTentativas();
-    }, 2500);
+    }, 1000);
 
-    sessionStorage['cont'] = Number(sessionStorage['cont']) + 1;
-    document.getElementById('cont').innerText = sessionStorage['cont'];
-
-    validarTentativas();
-}
-
-function validarTentativas() {
-    var botaoGerar = document.getElementById('gerar');
-    if (sessionStorage['cont'] == 3) {
-        botaoGerar.setAttribute('disabled', '');
-        botaoGerar.innerText = 'Tentativas esgotadas!';
-    }
+    salvarUltimaMassa(opcoes);
+    carregarMassa();
 }
 
 function numeroAleatorio(min, max) {
-    return Math.floor((Math.random() * max) + min);
+    return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function obterMassa(codigo) {
-    switch (codigo) {
-        case 1:
-            return 'Penne';
-        case 2:
-            return 'Espaguete';
-        case 3:
-            return 'Talharim';
+function carregarMassa() {
+    if (!sessionStorage['ultimaMassa']) {
+        document.getElementById('ingredientes').style.listStyle = 'none';
+        return;
+    }
+
+    var opcoes = JSON.parse(sessionStorage['ultimaMassa']);
+    document.getElementById('oleo').innerText = opcoes.oleo;
+    document.getElementById('massa').innerText = opcoes.massa;
+    document.getElementById('molho').innerText = opcoes.molho;
+
+    document.getElementById('ingredientes').style.listStyle = 'square';
+    for (let i = 0; i < 10; i++) {
+        document.getElementById('ingr' + i).innerText = opcoes.ingredientes[i];
     }
 }
 
-function obterMolho(codigo) {
-    switch (codigo) {
-        case 1:
-            return 'Vermelho';
-        case 2:
-            return 'Branco';
-        case 3:
-            return 'Misto';
-    }
-}
-
-function obterIngrediente(codigo) {
-    let ingrediente;
-    switch (codigo) {
-        case 1:
-            ingrediente = 'Milho';
-            break
-        case 2:
-            ingrediente = 'Bacon';
-            break;
-        case 3:
-            ingrediente = 'Carne moída';
-            break;
-        case 4:
-            ingrediente = 'Brócolis';
-            break;
-        case 5:
-            ingrediente = 'LIVRE';
-            break;
-        case 6:
-            ingrediente = 'Muçarela';
-            break;
-        case 7:
-            ingrediente = 'Cebola';
-            break;
-        case 8:
-            ingrediente = 'Alcaparra';
-            break;
-        case 9:
-            ingrediente = 'Salsicha';
-            break;
-        case 10:
-            ingrediente = 'Alho';
-            break;
-        case 11:
-            ingrediente = 'Queijo minas';
-            break;
-        case 12:
-            ingrediente = 'Linguiça toscana';
-            break;
-        case 13:
-            ingrediente = 'Cenoura';
-            break;
-        case 14:
-            ingrediente = 'Provolone';
-            break;
-        case 15:
-            ingrediente = 'Peito de peru';
-            break;
-        case 16:
-            ingrediente = 'Azeitona';
-            break;
-        case 17:
-            ingrediente = 'Presunto';
-            break;
-        case 18:
-            ingrediente = 'Tomate';
-            break;
-        case 19:
-            ingrediente = 'Ovo';
-            break;
-        case 20:
-            ingrediente = 'Palmito';
-            break;
-        case 21:
-            ingrediente = 'Gorgonzola';
-            break;
-        case 22:
-            ingrediente = 'LIVRE';
-            break;
-        default:
-            ingrediente = 'ERRO';
-            break;
-    }
-
-    return ingrediente;
+function salvarUltimaMassa(opcoes) {
+    sessionStorage['ultimaMassa'] = JSON.stringify(opcoes);
 }

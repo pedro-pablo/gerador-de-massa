@@ -32,6 +32,18 @@ main {
     text-align: center;
     height: 50px;
     font-size: 18px;
+    background-color: #00ff55;
+    border: 2px solid #00bb3e;
+    color: #000;
+}
+
+#gerar:hover {
+    background-color: #00bb3e;
+}
+
+#gerar:disabled {
+    background-color: #999;
+    border-color: #999;
 }
 
 #ingredientes {
