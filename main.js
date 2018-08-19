@@ -1,3 +1,5 @@
+const MAXIMO_TENTATIVAS = 5;
+
 window.onload = function() {
     if (!sessionStorage['cont']) {
         sessionStorage.setItem('cont', 0);
@@ -6,13 +8,13 @@ window.onload = function() {
     validarTentativas();
     carregarMassa();
     document.getElementById('cont').innerText = sessionStorage['cont'];
-}   
+}
 
 function gerar() {
     var botaoGerar = document.getElementById('gerar');
     botaoGerar.setAttribute('disabled', '');
     
-    if (Number(sessionStorage.cont) == 5) {
+    if (Number(sessionStorage.cont) == MAXIMO_TENTATIVAS) {
         return;
     }
 
@@ -48,7 +50,7 @@ function gerar() {
 
 function validarTentativas() {
     var botaoGerar = document.getElementById('gerar');
-    if (sessionStorage['cont'] == 3) {
+    if (sessionStorage['cont'] == MAXIMO_TENTATIVAS) {
         botaoGerar.setAttribute('disabled', '');
         botaoGerar.innerText = 'Tentativas esgotadas!';
     }
