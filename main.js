@@ -12,7 +12,7 @@ function gerar() {
     var botaoGerar = document.getElementById('gerar');
     botaoGerar.setAttribute('disabled', '');
     
-    if (Number(sessionStorage.cont) == 3) {
+    if (Number(sessionStorage.cont) == 5) {
         return;
     }
 
