@@ -29,7 +29,7 @@ function gerar() {
     opcoes.massa = numeroAleatorio(1, 3);
     opcoes.molho = numeroAleatorio(1, 3);
     for (let i = 1; i <= 10; i++) {
-        opcoes.ingredientes.push(numeroAleatorio(1, 22));
+        opcoes.ingredientes.push(numeroAleatorio(1, 20));
     }
 
     setTimeout(() => {
@@ -81,7 +81,7 @@ function obterMolho(codigo) {
 }
 
 function obterIngrediente(codigo) {
-    let ingrediente;
+    var ingrediente;
     switch (codigo) {
         case 1:
             ingrediente = 'Milho';
@@ -96,57 +96,51 @@ function obterIngrediente(codigo) {
             ingrediente = 'Brócolis';
             break;
         case 5:
-            ingrediente = 'LIVRE';
-            break;
-        case 6:
             ingrediente = 'Muçarela';
             break;
-        case 7:
+        case 6:
             ingrediente = 'Cebola';
             break;
-        case 8:
+        case 7:
             ingrediente = 'Alcaparra';
             break;
-        case 9:
+        case 8:
             ingrediente = 'Salsicha';
             break;
-        case 10:
+        case 9:
             ingrediente = 'Alho';
             break;
-        case 11:
+        case 10:
             ingrediente = 'Queijo minas';
             break;
-        case 12:
+        case 11:
             ingrediente = 'Linguiça toscana';
             break;
-        case 13:
+        case 12:
             ingrediente = 'Cenoura';
             break;
-        case 14:
-            ingrediente = 'Provolone';
-            break;
-        case 15:
+        case 13:
             ingrediente = 'Peito de peru';
             break;
-        case 16:
+        case 14:
             ingrediente = 'Azeitona';
             break;
-        case 17:
+        case 15:
             ingrediente = 'Presunto';
             break;
-        case 18:
+        case 16:
             ingrediente = 'Tomate';
             break;
-        case 19:
+        case 17:
             ingrediente = 'Ovo';
             break;
-        case 20:
+        case 18:
             ingrediente = 'Palmito';
             break;
-        case 21:
+        case 19:
             ingrediente = 'Gorgonzola';
             break;
-        case 22:
+        case 20:
             ingrediente = 'LIVRE';
             break;
         default:
