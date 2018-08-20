@@ -1,6 +1,6 @@
 html, body {
     font-family: sans-serif;
-    background: linear-gradient(90deg, #0a0, #ddd,#a00) no-repeat;
+    background: linear-gradient(90deg, #0a0, #d8d8d8 50%,#a00) no-repeat;
     color: black;
     height: 100vh;
     width: 100%;
@@ -27,25 +27,124 @@ main {
     margin: 10px 5vw 10px 5vw;
 }
 
-#gerar {
-    width: 100%;
+footer {
+    margin-top: 35px;
+    text-align: center;
+}
+
+.texto-rodape {
+    font-size: 12px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.texto-rodape > a {
+    text-decoration: none;
+}
+
+.botao {
+    width: 49.5%;
     text-align: center;
     height: 50px;
     font-size: 18px;
-    background-color: #00ff55;
-    border: 2px solid #00bb3e;
     color: #000;
+    display: inline-block;
+    border: 2px solid gray;
+}
+
+.botao:hover {
+    background-color: gray;
+}
+
+#botoes {
+    width: 100%;
+    text-align: center;
+    margin: auto;
+}
+
+#gerar {
+    background-color: #00ff55;
+    border-color: #00bb3e;
 }
 
 #gerar:hover {
     background-color: #00bb3e;
 }
 
-#gerar:disabled {
-    background-color: #999;
-    border-color: #999;
+#limpar {
+    background-color: #e20000;
+    border-color: #a80000;
+}
+
+#limpar:hover {
+    background-color: #a80000;
 }
 
 #ingredientes {
     list-style: none;
+}
+
+.div-codigo {
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+    margin: 5px 0 5px 0;
+}
+
+#botao-instrucoes {
+    padding: 3px;
+    display: inline-block;
+    height: 17px;
+    width: 17px;
+    font-size: 13px;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0;
+    border: 0;
+    background-color: #77ddff;
+    margin-left: 5px;
+    border-radius: 50%;
+}
+
+#botao-instrucoes:hover {
+    background-color: #41d0ff;
+}
+
+#instrucoes-carregar {
+    font-size: 12px;
+    background-color: #77ddff;
+    padding: 1.5px;
+    margin: 2px 0 2px 0;
+    width: 100%;
+    font-weight: bold;
+}
+
+#codigo-massa {
+    display: inline-block;
+    box-sizing: border-box;
+    width: 80%;
+    margin: auto;
+    height: 30px;
+    vertical-align: middle;
+}
+
+#carregar {
+    width: 20%;
+    height: 30px;
+    vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+    .botao, #carregar {
+        width: 100%;
+        display: block;
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+
+    #codigo-massa {
+        width: 100%;
+        display: block;
+    }
+
 }

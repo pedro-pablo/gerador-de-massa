@@ -8,12 +8,22 @@ const INGREDIENTES = ['Milho', 'Bacon', 'Carne moída', 'Brócolis', 'Muçarela'
 
 
 window.onload = function() {
-    carregarMassa();
+    if (sessionStorage['ultimaMassa']) {
+        document.getElementById('codigo-massa').value = sessionStorage['ultimaMassaCodigo'];
+        var opcoes = JSON.parse(sessionStorage['ultimaMassa']);
+        if (typeof(opcoes) == 'object') {
+            exibirMassa(opcoes);
+        }
+    }
+}
+
+function instrucoes() {
+    var instrucoes = document.getElementById('instrucoes-carregar');
+    instrucoes.style.display = instrucoes.style.display == 'none' ? 'block' : 'none';
 }
 
 function gerar() {
     var botaoGerar = document.getElementById('gerar');
-    botaoGerar.setAttribute('disabled', '');
 
     var opcoes = {
         "oleo": '',
@@ -22,37 +32,44 @@ function gerar() {
         "ingredientes": []
     };
 
-    botaoGerar.innerText = 'Massa gerada!';
-
-    opcoes.oleo = OLEOS[numeroAleatorio(0, 1)];
-    opcoes.massa = MASSAS[numeroAleatorio(0, 2)];
-    opcoes.molho = MOLHOS[numeroAleatorio(0, 2)];
+    opcoes.oleo = OLEOS[gerarNumeroAleatorio(0, 1)];
+    opcoes.massa = MASSAS[gerarNumeroAleatorio(0, 2)];
+    opcoes.molho = MOLHOS[gerarNumeroAleatorio(0, 2)];
     for (let i = 1; i <= 10; i++) {
-        opcoes.ingredientes.push(INGREDIENTES[numeroAleatorio(0, 18)]);
+        opcoes.ingredientes.push(INGREDIENTES[gerarNumeroAleatorio(0, 18)]);
     }
 
     opcoes.ingredientes = opcoes.ingredientes.sort();
-
-    setTimeout(() => {
-        botaoGerar.removeAttribute('disabled');
-        botaoGerar.innerText = 'Gerar';
-    }, 1000);
-
-    salvarUltimaMassa(opcoes);
-    carregarMassa();
+    
+    salvarMassa(opcoes);
+    exibirMassa(opcoes);
 }
 
-function numeroAleatorio(min, max) {
+function limpar() {
+    sessionStorage.clear();
+    window.location.reload(true);
+}
+
+function carregar() {
+    var objeto = JSON.parse(atob(document.getElementById('codigo-massa').value));
+    if (typeof(objeto) == 'object') {
+        salvarMassa(objeto);
+        exibirMassa(objeto);
+    } else {
+        alert('Código de massa inválido.');
+    }
+}
+
+function gerarNumeroAleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-function carregarMassa() {
+function exibirMassa(opcoes) {
     if (!sessionStorage['ultimaMassa']) {
         document.getElementById('ingredientes').style.listStyle = 'none';
         return;
     }
 
-    var opcoes = JSON.parse(sessionStorage['ultimaMassa']);
     document.getElementById('oleo').innerText = opcoes.oleo;
     document.getElementById('massa').innerText = opcoes.massa;
     document.getElementById('molho').innerText = opcoes.molho;
@@ -63,6 +80,10 @@ function carregarMassa() {
     }
 }
 
-function salvarUltimaMassa(opcoes) {
-    sessionStorage['ultimaMassa'] = JSON.stringify(opcoes);
+function salvarMassa(opcoes) {
+    var stringObjeto = JSON.stringify(opcoes);
+    var codigoObjeto = btoa(stringObjeto);
+    sessionStorage['ultimaMassa'] = stringObjeto;
+    sessionStorage['ultimaMassaCodigo'] = codigoObjeto;
+    document.getElementById('codigo-massa').value = codigoObjeto;
 }
