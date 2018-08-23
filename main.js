@@ -1,19 +1,30 @@
+const QUANTIDADE_INGREDIENTES = 10;
 const OLEOS = ['Azeite', 'Manteiga'];
 const MASSAS = ['Penne', 'Espaguete', 'Talharim'];
 const MOLHOS = ['Vermelho', 'Branco', 'Misto'];
 const INGREDIENTES = ['Milho', 'Bacon', 'Carne moída', 'Brócolis', 'Muçarela',
 'Cebola', 'Alcaparra', 'Salsicha', 'Alho', 'Queijo minas', 'Linguiça toscana',
 'Cenoura', 'Peito de peru', 'Azeitona', 'Presunto', 'Tomate', 'Ovo', 'Palmito',
-'Gorgonzola'];
+'Gorgonzola', 'Uva passa'];
 
 
 window.onload = function() {
+    criarListaIngredientes();
     if (sessionStorage['ultimaMassa']) {
         document.getElementById('codigo-massa').value = sessionStorage['ultimaMassaCodigo'];
         var opcoes = JSON.parse(sessionStorage['ultimaMassa']);
         if (typeof(opcoes) == 'object') {
             exibirMassa(opcoes);
         }
+    }
+}
+
+function criarListaIngredientes() {
+    var tagListaIngredientes = document.getElementById('ingredientes');
+    for (let i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
+        let itemLista = document.createElement('li');
+        itemLista.id = String('ingr' + i);
+        tagListaIngredientes.appendChild(itemLista);
     }
 }
 
@@ -35,8 +46,8 @@ function gerar() {
     opcoes.oleo = OLEOS[gerarNumeroAleatorio(0, 1)];
     opcoes.massa = MASSAS[gerarNumeroAleatorio(0, 2)];
     opcoes.molho = MOLHOS[gerarNumeroAleatorio(0, 2)];
-    for (let i = 1; i <= 10; i++) {
-        opcoes.ingredientes.push(INGREDIENTES[gerarNumeroAleatorio(0, 18)]);
+    for (let i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
+        opcoes.ingredientes.push(INGREDIENTES[gerarNumeroAleatorio(0, (INGREDIENTES.length - 1))]);
     }
 
     opcoes.ingredientes = opcoes.ingredientes.sort();
@@ -75,7 +86,7 @@ function exibirMassa(opcoes) {
     document.getElementById('molho').innerText = opcoes.molho;
 
     document.getElementById('ingredientes').style.listStyle = 'square';
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
         document.getElementById('ingr' + i).innerText = opcoes.ingredientes[i];
     }
 }
