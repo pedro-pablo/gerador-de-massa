@@ -1,6 +1,7 @@
 html, body {
     font-family: sans-serif;
-    background: linear-gradient(90deg, #0a0, #d8d8d8 50%,#a00) no-repeat;
+    background-color: white;
+    background: linear-gradient(90deg, rgba(0, 170, 0, 0.5), #d8d8d8 50%,rgba(170, 0, 0, 0.5)) no-repeat;
     color: black;
     height: 100vh;
     width: 100%;
@@ -126,6 +127,7 @@ footer {
     margin: auto;
     height: 30px;
     vertical-align: middle;
+    font-size: 11px;
 }
 
 #carregar {

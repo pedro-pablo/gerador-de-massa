@@ -1,24 +1,61 @@
+/**
+ * Quantidade de ingredientes que podem ser escolhidos.
+ */
 const QUANTIDADE_INGREDIENTES = 10;
+
+/**
+ * Opções de óleo.
+ */
 const OLEOS = ['Azeite', 'Manteiga'];
+
+/**
+ * Opções de massa.
+ */
 const MASSAS = ['Penne', 'Espaguete', 'Talharim'];
+
+/**
+ * Opções de molho.
+ */
 const MOLHOS = ['Vermelho', 'Branco', 'Misto'];
+
+/**
+ * Opções de ingredientes.
+ */
 const INGREDIENTES = ['Milho', 'Bacon', 'Carne moída', 'Brócolis', 'Muçarela',
 'Cebola', 'Alcaparra', 'Salsicha', 'Alho', 'Queijo minas', 'Linguiça toscana',
 'Cenoura', 'Peito de peru', 'Azeitona', 'Presunto', 'Tomate', 'Ovo', 'Palmito',
 'Gorgonzola', 'Uva passa'];
 
+/**
+ * Representa as opções de uma massa.
+ */
+class OpcoesMassa {
 
-window.onload = function() {
-    criarListaIngredientes();
-    if (sessionStorage['ultimaMassa']) {
-        document.getElementById('codigo-massa').value = sessionStorage['ultimaMassaCodigo'];
-        var opcoes = JSON.parse(sessionStorage['ultimaMassa']);
-        if (typeof(opcoes) == 'object') {
-            exibirMassa(opcoes);
-        }
+    /**
+     * @param {String} oleo 
+     * @param {String} massa 
+     * @param {String} molho 
+     * @param {String[]} ingredientes 
+     */
+    constructor(oleo, massa, molho, ingredientes) {
+        this.oleo = oleo;
+        this.massa = massa;
+        this.molho = molho;
+        this.ingredientes = ingredientes;
     }
 }
 
+/**
+ * Método que será executado ao carregar a página.
+ */
+window.onload = function() {
+    criarListaIngredientes();
+    carregarMassaSessao();
+}
+
+/**
+ * Cria os elementos <li> da lista de ingredientes.
+ */
 function criarListaIngredientes() {
     var tagListaIngredientes = document.getElementById('ingredientes');
     for (let i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
@@ -28,24 +65,38 @@ function criarListaIngredientes() {
     }
 }
 
+/**
+ * Carrega, se existir, a massa armazenada na sessão.
+ */
+function carregarMassaSessao() {
+    if (sessionStorage['ultimaMassa']) {
+        document.getElementById('codigo-massa').value = sessionStorage['ultimaMassaCodigo'];
+        var objetoJson = JSON.parse(sessionStorage['ultimaMassa']);
+        var opcoes = new OpcoesMassa(objetoJson['oleo'], objetoJson['massa'], objetoJson['molho'], objetoJson['ingredientes']);
+        if (typeof(opcoes) === 'object') {
+            exibirMassa(opcoes);
+        }
+    }
+}
+
+/**
+ * Esconde ou exibe as instruções de uso do código da massa.
+ */ 
 function instrucoes() {
     var instrucoes = document.getElementById('instrucoes-carregar');
     instrucoes.style.display = instrucoes.style.display == 'none' ? 'block' : 'none';
 }
 
+/**
+ * Gera uma nova massa aleatoriamente e a salva no armazenamento da sessão.
+ */
 function gerar() {
     var botaoGerar = document.getElementById('gerar');
 
-    var opcoes = {
-        "oleo": '',
-        "massa": '',
-        "molho": '',
-        "ingredientes": []
-    };
+    var opcoes = new OpcoesMassa(OLEOS[gerarNumeroAleatorio(0, 1)], 
+        MASSAS[gerarNumeroAleatorio(0, 2)], MOLHOS[gerarNumeroAleatorio(0, 2)], []);
 
-    opcoes.oleo = OLEOS[gerarNumeroAleatorio(0, 1)];
-    opcoes.massa = MASSAS[gerarNumeroAleatorio(0, 2)];
-    opcoes.molho = MOLHOS[gerarNumeroAleatorio(0, 2)];
+    // Definição dos ingredientes
     for (let i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
         opcoes.ingredientes.push(INGREDIENTES[gerarNumeroAleatorio(0, (INGREDIENTES.length - 1))]);
     }
@@ -56,12 +107,18 @@ function gerar() {
     exibirMassa(opcoes);
 }
 
+/**
+ * Limpa o armazenamento da sessão e recarrega a página.
+ */
 function limpar() {
     sessionStorage.clear();
     window.location.reload(true);
 }
 
-function carregar() {
+/**
+ * Carrega uma massa de acordo com o código informado no campo.
+ */
+function carregarCodigo() {
     var objeto = JSON.parse(atob(document.getElementById('codigo-massa').value));
     if (typeof(objeto) == 'object') {
         salvarMassa(objeto);
@@ -71,10 +128,19 @@ function carregar() {
     }
 }
 
+/**
+ * Gera um número aleatório entre o intervalo especificado (inclusivo).
+ * @param {Number} min Limite mínimo do intervalo
+ * @param {Number} max Limite máximo do intervalo
+ */
 function gerarNumeroAleatorio(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+/**
+ * Exibe na página as informações de uma massa.
+ * @param {OpcoesMassa} opcoes Informações da massa.
+ */
 function exibirMassa(opcoes) {
     if (!sessionStorage['ultimaMassa']) {
         document.getElementById('ingredientes').style.listStyle = 'none';
@@ -90,11 +156,16 @@ function exibirMassa(opcoes) {
         document.getElementById('ingr' + i).innerText = opcoes.ingredientes[i];
     }
 }
-
+/**
+ * Salva a massa informada no armazenamento da sessão.
+ * @param {OpcoesMassa} opcoes Informações da massa.
+ */
 function salvarMassa(opcoes) {
-    var stringObjeto = JSON.stringify(opcoes);
-    var codigoObjeto = btoa(stringObjeto);
+    var stringObjeto = JSON.stringify(opcoes); // Obtém o JSON das informações da massa
+    var codigoObjeto = btoa(stringObjeto); // Transforma o JSON das informações em um Base64
+
     sessionStorage['ultimaMassa'] = stringObjeto;
     sessionStorage['ultimaMassaCodigo'] = codigoObjeto;
+
     document.getElementById('codigo-massa').value = codigoObjeto;
 }
