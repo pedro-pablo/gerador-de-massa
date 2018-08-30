@@ -49,8 +49,25 @@ class OpcoesMassa {
  * Método que será executado ao carregar a página.
  */
 window.onload = function() {
+    criarListaFiltros();
     criarListaIngredientes();
     carregarMassaSessao();
+}
+
+/**
+ * Cria os elementos <li> da lista de filtros.
+ */
+function criarListaFiltros() {
+    var tagListaFiltro = document.getElementById('ingredientes-filtro');
+    INGREDIENTES.sort().forEach(function (valor, indice) {
+        let itemLista = document.createElement('li');
+        let checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.value = indice;
+        itemLista.appendChild(checkbox);
+        itemLista.innerHTML += valor;
+        tagListaFiltro.appendChild(itemLista);
+    });
 }
 
 /**
@@ -63,6 +80,14 @@ function criarListaIngredientes() {
         itemLista.id = String('ingr' + i);
         tagListaIngredientes.appendChild(itemLista);
     }
+}
+
+/**
+ * Adiciona ou remove o filtro do vetor de filtros ativos.
+ * @param {*} indiceIngrediente Índice do ingrediente selecionado.
+ */
+function alterarFiltro(indiceIngrediente) {
+    alert(indiceIngrediente);
 }
 
 /**
@@ -93,12 +118,30 @@ function instrucoes() {
 function gerar() {
     var botaoGerar = document.getElementById('gerar');
 
+    var ingredientesFiltrados = [];
+    var listaFiltros = document.getElementById('ingredientes-filtro');
+    for (let i = 0; i < listaFiltros.children.length; i++) {
+        let elementoLista = listaFiltros.children.item(i);
+        let elementoCheckBox = elementoLista.children.item(0);
+        if (elementoCheckBox.type === 'checkbox') {
+            if (elementoCheckBox.checked) {
+                ingredientesFiltrados.push(Number(elementoCheckBox.value));
+            }
+        }
+    }
+
+    console.log(ingredientesFiltrados);
+
     var opcoes = new OpcoesMassa(OLEOS[gerarNumeroAleatorio(0, 1)], 
         MASSAS[gerarNumeroAleatorio(0, 2)], MOLHOS[gerarNumeroAleatorio(0, 2)], []);
 
     // Definição dos ingredientes
     for (let i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
-        opcoes.ingredientes.push(INGREDIENTES[gerarNumeroAleatorio(0, (INGREDIENTES.length - 1))]);
+        let numeroIngrediente = undefined;
+        do {
+            numeroIngrediente = gerarNumeroAleatorio(0, (INGREDIENTES.length - 1));
+        } while (numeroIngrediente == undefined || ingredientesFiltrados.includes(numeroIngrediente))
+        opcoes.ingredientes.push(INGREDIENTES[numeroIngrediente]);
     }
 
     opcoes.ingredientes = opcoes.ingredientes.sort();

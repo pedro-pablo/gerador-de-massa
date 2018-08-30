@@ -1,17 +1,20 @@
 html, body {
     font-family: sans-serif;
-    background-color: white;
-    background: linear-gradient(90deg, rgba(0, 170, 0, 0.5), #d8d8d8 50%,rgba(170, 0, 0, 0.5)) no-repeat;
+    background: linear-gradient(90deg, #0a0, #d8d8d8 50%,#a00) no-repeat;
     color: black;
     height: 100vh;
     width: 100%;
     margin: auto;
     overflow-y: auto;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 h1, h2 {
     text-align: center;
+}
+
+h2 {
+    font-size: 18px;
 }
 
 header {
@@ -19,13 +22,18 @@ header {
 }
 
 main {
-    margin: 15px;
-    padding: 10px 10px 10px 10px;
     background-color: #cecece;
     background-color: rgba(255, 255, 255, 0.75);
     color: black;
     border-radius: 4px;
+    padding: 10px 10px 10px 10px;
     margin: 10px 5vw 10px 5vw;
+}
+
+div {
+    width: 100%;
+    text-align: center;
+    margin: auto;
 }
 
 footer {
@@ -57,10 +65,14 @@ footer {
     background-color: gray;
 }
 
-#botoes {
-    width: 100%;
+#ingredientes-filtro {
     text-align: center;
-    margin: auto;
+    list-style: none;
+    padding: 0;
+}
+
+#ingredientes-filtro li {
+    display: inline-block;
 }
 
 #gerar {
@@ -127,7 +139,6 @@ footer {
     margin: auto;
     height: 30px;
     vertical-align: middle;
-    font-size: 11px;
 }
 
 #carregar {
