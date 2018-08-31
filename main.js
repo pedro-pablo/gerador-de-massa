@@ -22,9 +22,9 @@ const MOLHOS = ['Vermelho', 'Branco', 'Misto'];
  * Opções de ingredientes.
  */
 const INGREDIENTES = ['Milho', 'Bacon', 'Carne moída', 'Brócolis', 'Muçarela',
-'Cebola', 'Alcaparra', 'Salsicha', 'Alho', 'Queijo minas', 'Linguiça toscana',
-'Cenoura', 'Peito de peru', 'Azeitona', 'Presunto', 'Tomate', 'Ovo', 'Palmito',
-'Gorgonzola', 'Uva passa'];
+    'Cebola', 'Alcaparra', 'Salsicha', 'Alho', 'Queijo minas', 'Linguiça toscana',
+    'Cenoura', 'Peito de peru', 'Azeitona', 'Presunto', 'Tomate', 'Ovo', 'Palmito',
+    'Gorgonzola', 'Uva passa'];
 
 /**
  * Representa as opções de uma massa.
@@ -48,7 +48,7 @@ class OpcoesMassa {
 /**
  * Método que será executado ao carregar a página.
  */
-window.onload = function() {
+window.onload = function () {
     criarListaFiltros();
     criarListaIngredientes();
     carregarMassaSessao();
@@ -98,7 +98,7 @@ function carregarMassaSessao() {
         document.getElementById('codigo-massa').value = sessionStorage['ultimaMassaCodigo'];
         var objetoJson = JSON.parse(sessionStorage['ultimaMassa']);
         var opcoes = new OpcoesMassa(objetoJson['oleo'], objetoJson['massa'], objetoJson['molho'], objetoJson['ingredientes']);
-        if (typeof(opcoes) === 'object') {
+        if (typeof (opcoes) === 'object') {
             exibirMassa(opcoes);
         }
     }
@@ -106,7 +106,7 @@ function carregarMassaSessao() {
 
 /**
  * Esconde ou exibe as instruções de uso do código da massa.
- */ 
+ */
 function instrucoes() {
     var instrucoes = document.getElementById('instrucoes-carregar');
     instrucoes.style.display = instrucoes.style.display == 'none' ? 'block' : 'none';
@@ -130,14 +130,17 @@ function gerar() {
         }
     }
 
-    console.log(ingredientesFiltrados);
+    if (ingredientesFiltrados.length == INGREDIENTES.length) {
+        alert('Você não pode filtrar todos os ingredientes.');
+        return;
+    }
 
-    var opcoes = new OpcoesMassa(OLEOS[gerarNumeroAleatorio(0, 1)], 
+    var opcoes = new OpcoesMassa(OLEOS[gerarNumeroAleatorio(0, 1)],
         MASSAS[gerarNumeroAleatorio(0, 2)], MOLHOS[gerarNumeroAleatorio(0, 2)], []);
 
     // Definição dos ingredientes
     for (let i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
-        let numeroIngrediente = undefined;
+        let numeroIngrediente;
         do {
             numeroIngrediente = gerarNumeroAleatorio(0, (INGREDIENTES.length - 1));
         } while (numeroIngrediente == undefined || ingredientesFiltrados.includes(numeroIngrediente))
@@ -145,7 +148,7 @@ function gerar() {
     }
 
     opcoes.ingredientes = opcoes.ingredientes.sort();
-    
+
     salvarMassa(opcoes);
     exibirMassa(opcoes);
 }
@@ -163,7 +166,7 @@ function limpar() {
  */
 function carregarCodigo() {
     var objeto = JSON.parse(atob(document.getElementById('codigo-massa').value));
-    if (typeof(objeto) == 'object') {
+    if (typeof (objeto) == 'object') {
         salvarMassa(objeto);
         exibirMassa(objeto);
     } else {
