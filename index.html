@@ -13,9 +13,9 @@
         <h1>Gerador de Massa</h1>
     </header>
     <main>
-        <div id="filtros">
-            <h2>Filtro de ingredientes</h2>
-            <p>Selecione abaixo os ingredientes que você <em>não quer</em> que apareça na geração aleatória de massas:</p>
+        <h2>Filtro de ingredientes</h2>
+        <div>
+            <span>Selecione abaixo os ingredientes que você <em>não quer</em> que apareça na geração aleatória de massas:</span>
             <ul id="ingredientes-filtro">               
             </ul>
         </div>
@@ -23,26 +23,26 @@
             <button id="gerar" class="botao" onclick="gerar()">Gerar</button>
             <button id="limpar" class="botao" onclick="limpar()">Limpar</button>
         </div>
+
+        <hr />
+
+        <h2>Informações da massa</h2>
         <p><strong>Azeite/Manteiga:</strong> <span id="oleo"></span></p>
         <p><strong>Massa:</strong> <span id="massa"></span></p>
         <p><strong>Molho:</strong> <span id="molho"></span></p>
         <p><strong>Ingredientes:</strong></p>
-        <ul id="ingredientes">
-
-        </ul>
+        <ul id="ingredientes"></ul>
 
         <hr />
 
-        <div class="div-codigo" style="text-align: center;">
-            <span style="margin: 5px">Código da massa<button id="botao-instrucoes" onclick="instrucoes()">?</button></span>
+        <div>
+            <h2>Código da massa<button id="botao-instrucoes" onclick="instrucoes()">?</button></h2>
             <span id="instrucoes-carregar" style="display: none">
                 O código abaixo representa a massa gerada. Ele pode ser compartilhado com outras pessoas para que elas possam gerar uma massa igual a essa.
                 <br />
                 Você também pode carregar a massa de outras pessoas colando um código no campo abaixo e clicando no botão ao lado.
             </span>
-        </div>
-        <div class="div-codigo">
-            <input type="text" id="codigo-massa"><button id="carregar" class="botao" onclick="carregarCodigo()">Carregar</button>
+            <input type="text" id="codigo-massa"><button class="botao" onclick="carregarCodigo()">Carregar</button>
         </div>
     </main>
     <footer>

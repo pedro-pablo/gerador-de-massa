@@ -15,6 +15,7 @@ h1, h2 {
 
 h2 {
     font-size: 18px;
+    margin: 0 0 10px 0;
 }
 
 header {
@@ -31,9 +32,10 @@ main {
 }
 
 div {
-    width: 100%;
+    display: flex;
+    flex-direction: column;
     text-align: center;
-    margin: auto;
+    justify-content: center;
 }
 
 footer {
@@ -52,12 +54,12 @@ footer {
 }
 
 .botao {
-    width: 49.5%;
-    text-align: center;
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
     height: 50px;
     font-size: 18px;
     color: #000;
-    display: inline-block;
     border: 2px solid gray;
 }
 
@@ -65,14 +67,15 @@ footer {
     background-color: gray;
 }
 
-#ingredientes-filtro {
-    text-align: center;
-    list-style: none;
-    padding: 0;
+#botoes {
+    flex-direction: row;
 }
 
-#ingredientes-filtro li {
-    display: inline-block;
+#ingredientes-filtro {
+    list-style: none;
+    text-align: justify;
+    column-count: 4;
+    padding: 0;
 }
 
 #gerar {
@@ -90,18 +93,11 @@ footer {
 }
 
 #limpar:hover {
-    background-color: #a80000;
+    background-color: #350a0a;
 }
 
 #ingredientes {
     list-style: none;
-}
-
-.div-codigo {
-    width: 100%;
-    text-align: center;
-    vertical-align: middle;
-    margin: 5px 0 5px 0;
 }
 
 #botao-instrucoes {
@@ -124,40 +120,26 @@ footer {
 }
 
 #instrucoes-carregar {
+    display: flex;
     font-size: 12px;
     background-color: #77ddff;
-    padding: 1.5px;
-    margin: 2px 0 2px 0;
     width: 100%;
     font-weight: bold;
 }
 
 #codigo-massa {
-    display: inline-block;
+    display: flex;
     box-sizing: border-box;
-    width: 80%;
-    margin: auto;
-    height: 30px;
-    vertical-align: middle;
-}
-
-#carregar {
-    width: 20%;
     height: 30px;
     vertical-align: middle;
 }
 
 @media (max-width: 600px) {
-    .botao, #carregar {
-        width: 100%;
-        display: block;
-        margin-top: 5px;
-        margin-bottom: 5px;
+    #botoes {
+        flex-direction: column;
     }
 
-    #codigo-massa {
-        width: 100%;
-        display: block;
+    #ingredientes-filtro {
+        column-count: 2;
     }
-
 }

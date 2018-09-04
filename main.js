@@ -109,7 +109,7 @@ function carregarMassaSessao() {
  */
 function instrucoes() {
     var instrucoes = document.getElementById('instrucoes-carregar');
-    instrucoes.style.display = instrucoes.style.display == 'none' ? 'block' : 'none';
+    instrucoes.style.display = instrucoes.style.display == 'none' ? 'flex' : 'none';
 }
 
 /**
