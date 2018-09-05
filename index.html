@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,45 +9,58 @@
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     <script src="main.js"></script>
 </head>
+
 <body>
     <header>
         <h1>Gerador de Massa</h1>
     </header>
+    <noscript>
+        <style>
+            main {
+                display: none;
+            }
+        </style>
+        <h2>Você precisa habilitar o Javascript para utilizar esse site.</h2>
+    </noscript>
     <main>
-        <h2>Filtro de ingredientes</h2>
-        <div>
+        <section id="section-filtro">
+            <h2>Filtro de ingredientes</h2>
             <span>Selecione abaixo os ingredientes que você <em>não quer</em> que apareça na geração aleatória de massas:</span>
-            <ul id="ingredientes-filtro">               
-            </ul>
-        </div>
-        <div id="botoes">
-            <button id="gerar" class="botao" onclick="gerar()">Gerar</button>
-            <button id="limpar" class="botao" onclick="limpar()">Limpar</button>
-        </div>
 
-        <hr />
+            <ul id="ingredientes-filtro"></ul>
 
-        <h2>Informações da massa</h2>
-        <p><strong>Azeite/Manteiga:</strong> <span id="oleo"></span></p>
-        <p><strong>Massa:</strong> <span id="massa"></span></p>
-        <p><strong>Molho:</strong> <span id="molho"></span></p>
-        <p><strong>Ingredientes:</strong></p>
-        <ul id="ingredientes"></ul>
+            <div class="grupo-botao">
+                <button id="gerar" class="botao" onclick="gerar()">Gerar</button>
+                <button id="limpar" class="botao" onclick="limpar()">Limpar</button>
+            </div>
+        </section>
+        <section>
+            <h2>Informações da massa</h2>
 
-        <hr />
-
-        <div>
+            <p><strong>Azeite/Manteiga:</strong> <span id="oleo"></span></p>
+            <p><strong>Massa:</strong> <span id="massa"></span></p>
+            <p><strong>Molho:</strong> <span id="molho"></span></p>
+            <p><strong>Ingredientes:</strong></p>
+            <ul id="ingredientes"></ul>
+        </section>
+        <section>
             <h2>Código da massa<button id="botao-instrucoes" onclick="instrucoes()">?</button></h2>
+
             <span id="instrucoes-carregar" style="display: none">
-                O código abaixo representa a massa gerada. Ele pode ser compartilhado com outras pessoas para que elas possam gerar uma massa igual a essa.
-                <br />
-                Você também pode carregar a massa de outras pessoas colando um código no campo abaixo e clicando no botão ao lado.
+                O código abaixo representa a massa gerada. Ele pode ser compartilhado com outras pessoas para que elas possam gerar uma massa
+                igual a essa.
+                <br /> Você também pode carregar a massa de outras pessoas colando um código no campo abaixo e clicando no
+                botão ao lado.
             </span>
-            <input type="text" id="codigo-massa"><button class="botao" onclick="carregarCodigo()">Carregar</button>
-        </div>
+            <div id="grupo-codigo">
+                <input type="text" id="codigo-massa">
+                <button class="botao" onclick="carregarCodigo()">Carregar</button>
+            </div>
+        </section>
     </main>
     <footer>
         <span class="texto-rodape">Criado por <a href="https://github.com/pedro-pablo" target="_blank">Pedro Pablo</a></span>
     </footer>
 </body>
+
 </html>
