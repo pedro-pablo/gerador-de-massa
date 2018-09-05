@@ -215,3 +215,16 @@ function salvarMassa(opcoes) {
 
     document.getElementById('codigo-massa').value = codigoObjeto;
 }
+
+/**
+ * Copia o código da massa para a área de transferência do dispositivo.
+ */
+function copiarCodigo() {
+    var elementoCodigo = document.getElementById('codigo-massa');
+    if (elementoCodigo.value === '') {
+        return;
+    }
+
+    elementoCodigo.select();
+    document.execCommand('copy');
+}

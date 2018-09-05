@@ -25,11 +25,12 @@
     <main>
         <section id="section-filtro">
             <h2>Filtro de ingredientes</h2>
-            <span>Selecione abaixo os ingredientes que você <em>não quer</em> que apareça na geração aleatória de massas:</span>
+            <span>Selecione abaixo os ingredientes que você <em>não quer</em> que apareça na geração aleatória de
+                massas:</span>
 
             <ul id="ingredientes-filtro"></ul>
 
-            <div class="grupo-botao">
+            <div id="grupo-botao">
                 <button id="gerar" class="botao" onclick="gerar()">Gerar</button>
                 <button id="limpar" class="botao" onclick="limpar()">Limpar</button>
             </div>
@@ -47,14 +48,16 @@
             <h2>Código da massa<button id="botao-instrucoes" onclick="instrucoes()">?</button></h2>
 
             <span id="instrucoes-carregar" style="display: none">
-                O código abaixo representa a massa gerada. Ele pode ser compartilhado com outras pessoas para que elas possam gerar uma massa
+                O código abaixo representa a massa gerada. Ele pode ser compartilhado com outras pessoas para que elas
+                possam gerar uma massa
                 igual a essa.
-                <br /> Você também pode carregar a massa de outras pessoas colando um código no campo abaixo e clicando no
+                <br /> Você também pode carregar a massa de outras pessoas colando um código no campo abaixo e clicando
+                no
                 botão ao lado.
             </span>
             <div id="grupo-codigo">
-                <input type="text" id="codigo-massa">
-                <button class="botao" onclick="carregarCodigo()">Carregar</button>
+                <input type="text" id="codigo-massa"><button class="botao" onclick="copiarCodigo()">Copiar</button>
+                <button id="botao-carregar" class="botao" onclick="carregarCodigo()">Carregar</button>
             </div>
         </section>
     </main>
