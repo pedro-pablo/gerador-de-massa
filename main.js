@@ -118,18 +118,12 @@ function instrucoes() {
 function gerar() {
     var botaoGerar = document.getElementById('gerar');
 
-    var ingredientesFiltrados = [];
-    var listaFiltros = document.getElementById('ingredientes-filtro');
-    for (let i = 0; i < listaFiltros.children.length; i++) {
-        let elementoLista = listaFiltros.children.item(i);
-        let elementoCheckBox = elementoLista.children.item(0);
-        if (elementoCheckBox.type === 'checkbox') {
-            if (elementoCheckBox.checked) {
-                ingredientesFiltrados.push(Number(elementoCheckBox.value));
-            }
-        }
-    }
-
+    var ingredientesFiltrados = listarFiltros().filter(function (elemento) {
+        return elemento.checked;
+    }).map(function (elemento) {
+        return Number(elemento.value);
+    });
+    
     if (ingredientesFiltrados.length == INGREDIENTES.length) {
         alert('Você não pode filtrar todos os ingredientes.');
         return;
@@ -227,4 +221,29 @@ function copiarCodigo() {
 
     elementoCodigo.select();
     document.execCommand('copy');
+}
+
+/**
+ * Retorna uma lista com todos os elementos de filtro de ingredientes;
+ */
+function listarFiltros() {
+    var filtros = [];
+    var listaFiltros = document.getElementById('ingredientes-filtro');
+    for (let i = 0; i < listaFiltros.children.length; i++) {
+        let elementoLista = listaFiltros.children.item(i);
+        let elementoCheckBox = elementoLista.children.item(0);
+        if (elementoCheckBox.type === 'checkbox') {
+            filtros.push(elementoCheckBox);
+        }
+    }
+    return filtros;
+}
+
+/**
+ * Deseleciona todos os checkboxes de filtro de ingredientes.
+ */
+function limparFiltros() {
+    listarFiltros().forEach(function (elemento) {
+        elemento.checked = false;
+    });
 }
