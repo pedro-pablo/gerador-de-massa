@@ -1,30 +1,39 @@
 /**
  * Quantidade de ingredientes que podem ser escolhidos.
  */
-const QUANTIDADE_INGREDIENTES = 10;
+const quantidadeIngredientes = 10;
 
 /**
  * Opções de óleo.
  */
-const OLEOS = ['Azeite', 'Manteiga'];
+const oleos = ['Azeite', 'Manteiga'];
 
 /**
  * Opções de massa.
  */
-const MASSAS = ['Penne', 'Espaguete', 'Talharim'];
+const massas = ['Penne', 'Espaguete', 'Talharim'];
 
 /**
  * Opções de molho.
  */
-const MOLHOS = ['Vermelho', 'Branco', 'Misto'];
+const molhos = ['Vermelho', 'Branco', 'Misto'];
 
 /**
  * Opções de ingredientes.
  */
-const INGREDIENTES = ['Milho', 'Bacon', 'Carne moída', 'Brócolis', 'Muçarela',
+const ingredientes = ['Milho', 'Bacon', 'Carne moída', 'Brócolis', 'Muçarela',
     'Cebola', 'Alcaparra', 'Salsicha', 'Alho', 'Queijo minas', 'Linguiça toscana',
     'Cenoura', 'Peito de peru', 'Azeitona', 'Presunto', 'Tomate', 'Ovo', 'Palmito',
     'Gorgonzola', 'Uva passa'];
+
+// Elementos HTML
+const elementoListaIngr = document.getElementById('ingredientes');
+const elementoListaFiltro = document.getElementById('ingredientes-filtro');
+const elementoCodigoMassa = document.getElementById('codigo-massa');
+const elementoInstrucoes = document.getElementById('instrucoes-carregar');
+const elementoOleo = document.getElementById('oleo');
+const elementoMassa = document.getElementById('massa');
+const elementoMolho = document.getElementById('molho');
 
 /**
  * Representa as opções de uma massa.
@@ -58,15 +67,14 @@ window.onload = function () {
  * Cria os elementos <li> da lista de filtros.
  */
 function criarListaFiltros() {
-    var tagListaFiltro = document.getElementById('ingredientes-filtro');
-    INGREDIENTES.sort().forEach(function (valor, indice) {
+    ingredientes.sort().forEach(function (valor, indice) {
         let itemLista = document.createElement('li');
         let checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
         checkbox.value = indice;
         itemLista.appendChild(checkbox);
         itemLista.innerHTML += valor;
-        tagListaFiltro.appendChild(itemLista);
+        elementoListaFiltro.appendChild(itemLista);
     });
 }
 
@@ -74,11 +82,10 @@ function criarListaFiltros() {
  * Cria os elementos <li> da lista de ingredientes.
  */
 function criarListaIngredientes() {
-    var tagListaIngredientes = document.getElementById('ingredientes');
-    for (let i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
+    for (let i = 0; i < quantidadeIngredientes; i++) {
         let itemLista = document.createElement('li');
         itemLista.id = String('ingr' + i);
-        tagListaIngredientes.appendChild(itemLista);
+        elementoListaIngr.appendChild(itemLista);
     }
 }
 
@@ -95,9 +102,9 @@ function alterarFiltro(indiceIngrediente) {
  */
 function carregarMassaSessao() {
     if (sessionStorage['ultimaMassa']) {
-        document.getElementById('codigo-massa').value = sessionStorage['ultimaMassaCodigo'];
-        var objetoJson = JSON.parse(sessionStorage['ultimaMassa']);
-        var opcoes = new OpcoesMassa(objetoJson['oleo'], objetoJson['massa'], objetoJson['molho'], objetoJson['ingredientes']);
+        elementoCodigoMassa.value = sessionStorage['ultimaMassaCodigo'];
+        let objetoJson = JSON.parse(sessionStorage['ultimaMassa']);
+        let opcoes = new OpcoesMassa(objetoJson['oleo'], objetoJson['massa'], objetoJson['molho'], objetoJson['ingredientes']);
         if (typeof (opcoes) === 'object') {
             exibirMassa(opcoes);
         }
@@ -108,37 +115,34 @@ function carregarMassaSessao() {
  * Esconde ou exibe as instruções de uso do código da massa.
  */
 function instrucoes() {
-    var instrucoes = document.getElementById('instrucoes-carregar');
-    instrucoes.style.display = instrucoes.style.display == 'none' ? 'flex' : 'none';
+    elementoInstrucoes.style.display = elementoInstrucoes.style.display == 'none' ? 'flex' : 'none';
 }
 
 /**
  * Gera uma nova massa aleatoriamente e a salva no armazenamento da sessão.
  */
 function gerar() {
-    var botaoGerar = document.getElementById('gerar');
-
-    var ingredientesFiltrados = listarFiltros().filter(function (elemento) {
+    let ingredientesFiltrados = listarFiltros().filter((elemento) => {
         return elemento.checked;
-    }).map(function (elemento) {
+    }).map((elemento) => {
         return Number(elemento.value);
     });
-    
-    if (ingredientesFiltrados.length == INGREDIENTES.length) {
+
+    if (ingredientesFiltrados.length == ingredientes.length) {
         alert('Você não pode filtrar todos os ingredientes.');
         return;
     }
 
-    var opcoes = new OpcoesMassa(OLEOS[gerarNumeroAleatorio(0, 1)],
-        MASSAS[gerarNumeroAleatorio(0, 2)], MOLHOS[gerarNumeroAleatorio(0, 2)], []);
+    let opcoes = new OpcoesMassa(oleos[gerarNumeroAleatorio(0, 1)],
+        massas[gerarNumeroAleatorio(0, 2)], molhos[gerarNumeroAleatorio(0, 2)], []);
 
     // Definição dos ingredientes
-    for (let i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
+    for (let i = 0; i < quantidadeIngredientes; i++) {
         let numeroIngrediente;
         do {
-            numeroIngrediente = gerarNumeroAleatorio(0, (INGREDIENTES.length - 1));
+            numeroIngrediente = gerarNumeroAleatorio(0, (ingredientes.length - 1));
         } while (numeroIngrediente == undefined || ingredientesFiltrados.includes(numeroIngrediente))
-        opcoes.ingredientes.push(INGREDIENTES[numeroIngrediente]);
+        opcoes.ingredientes.push(ingredientes[numeroIngrediente]);
     }
 
     opcoes.ingredientes = opcoes.ingredientes.sort();
@@ -159,7 +163,7 @@ function limpar() {
  * Carrega uma massa de acordo com o código informado no campo.
  */
 function carregarCodigo() {
-    var objeto = JSON.parse(atob(document.getElementById('codigo-massa').value));
+    let objeto = JSON.parse(atob(elementoCodigoMassa.value));
     if (typeof (objeto) == 'object') {
         salvarMassa(objeto);
         exibirMassa(objeto);
@@ -183,16 +187,16 @@ function gerarNumeroAleatorio(min, max) {
  */
 function exibirMassa(opcoes) {
     if (!sessionStorage['ultimaMassa']) {
-        document.getElementById('ingredientes').style.listStyle = 'none';
+        elementoListaIngr.style.listStyle = 'none';
         return;
     }
 
-    document.getElementById('oleo').innerText = opcoes.oleo;
-    document.getElementById('massa').innerText = opcoes.massa;
-    document.getElementById('molho').innerText = opcoes.molho;
+    elementoOleo.innerText = opcoes.oleo;
+    elementoMassa.innerText = opcoes.massa;
+    elementoMolho.innerText = opcoes.molho;
 
-    document.getElementById('ingredientes').style.listStyle = 'square';
-    for (let i = 0; i < QUANTIDADE_INGREDIENTES; i++) {
+    elementoListaIngr.style.listStyle = 'square';
+    for (let i = 0; i < quantidadeIngredientes; i++) {
         document.getElementById('ingr' + i).innerText = opcoes.ingredientes[i];
     }
 }
@@ -207,19 +211,18 @@ function salvarMassa(opcoes) {
     sessionStorage['ultimaMassa'] = stringObjeto;
     sessionStorage['ultimaMassaCodigo'] = codigoObjeto;
 
-    document.getElementById('codigo-massa').value = codigoObjeto;
+    elementoCodigoMassa.value = codigoObjeto;
 }
 
 /**
  * Copia o código da massa para a área de transferência do dispositivo.
  */
 function copiarCodigo() {
-    var elementoCodigo = document.getElementById('codigo-massa');
-    if (elementoCodigo.value === '') {
+    if (!elementoCodigoMassa.value) {
         return;
     }
 
-    elementoCodigo.select();
+    elementoCodigoMassa.select();
     document.execCommand('copy');
 }
 
@@ -228,10 +231,10 @@ function copiarCodigo() {
  */
 function listarFiltros() {
     var filtros = [];
-    var listaFiltros = document.getElementById('ingredientes-filtro');
-    for (let i = 0; i < listaFiltros.children.length; i++) {
-        let elementoLista = listaFiltros.children.item(i);
+    for (let i = 0; i < elementoListaFiltro.children.length; i++) {
+        let elementoLista = elementoListaFiltro.children.item(i);
         let elementoCheckBox = elementoLista.children.item(0);
+
         if (elementoCheckBox.type === 'checkbox') {
             filtros.push(elementoCheckBox);
         }
@@ -243,7 +246,7 @@ function listarFiltros() {
  * Deseleciona todos os checkboxes de filtro de ingredientes.
  */
 function limparFiltros() {
-    listarFiltros().forEach(function (elemento) {
+    listarFiltros().forEach((elemento) => {
         elemento.checked = false;
     });
 }
